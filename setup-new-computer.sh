@@ -367,17 +367,32 @@ printHeading "Installing Brew Packages"
     printStep "bash-completion"             "brew install bash-completion"
     printStep "zsh-completions"             "brew install zsh-completions"
     printStep "Git"                         "brew install git"
-    printStep "Ruby"                        "brew install ruby"
+    printStep "Postgresql"                  "brew install postgres"
+    printStep "Redis"                       "brew install redis"
 printDivider
 
 
 # Install  Apps
 printHeading "Installing Applications"
+    printStep "1Password"                   "brew install --cask 1password"
     printStep "Slack"                       "brew install --cask slack"
+    printStep "Skype"                       "brew install --cask skype"
     printStep "Firefox"                     "brew install --cask firefox"
+    printStep "Coconut Battery"             "brew install --cask coconutbattery"
+    printStep "AlDente Pro"                 "brew install --cask aldente"
     printStep "Google Chrome"               "brew install --cask google-chrome"
     printStep "Docker for Mac"              "brew install --cask docker"
     printStep "Postman"                     "brew install --cask postman"
+    printStep "Whatsapp"                    "brew install --cask whatsapp"
+    printStep "Finicky"                     "brew install --cask finicky"
+    printStep "Pritunl"                     "brew install --cask pritunl"
+    printStep "Transmission"                "brew install --cask transmission"
+    printStep "TunnelBear"                  "brew install --cask tunnelbear"
+    printStep "VLC media player"            "brew install --cask vlc"
+    printStep "DaisyDisk"                   "brew install --cask daisydisk"
+    printStep "Zoom.us"                     "brew install --cask zoom"
+    printStep "FreeMacSoft AppCleaner"      "brew install --cask appcleaner"
+
     # Install Visual Studio Code
     if [[ "${devtoolchoices[0]}" == "+" ]]; then
         printStep "Visual Studio Code"      "brew install --cask visual-studio-code"
@@ -416,9 +431,6 @@ printHeading "Installing Go"
         echo "✔ Creating Go directory in home folder [~/go]"
             mkdir -p ~/go
     printStep "Go"            "brew install go"
-    printDivider
-        echo "✔ Setting GOPRIVATE enviromental variable"
-            go env -w GOPRIVATE="github.com/vendasta"
 printDivider
 
 
@@ -466,76 +478,32 @@ printHeading "Installing Node and Angular CLI through NVM"
     printDivider
         echo "Installing Node..."
         nvm install 14
-    printStep "Angular CLI"             "npm install -g @angular/cli"
-    printStep "NX"                      "npm install -g nx"
     printStep "Husky"                   "npm install -g husky"
     printStep "Node Sass"               "npm install -g node-sass"
     printStep "Node Gyp"                "npm install -g node-gyp"
-    printDivider
-        echo "✔ Touch ~/.huskyrc"
-            touch ~/.huskyrc
-    printDivider
-        # Husky profile
-        if grep --quiet "nvm" ~/.huskyrc; then
-            echo "✔ .huskyrc already includes nvm. Skipping"
-        else
-            writetoHuskrc
-            echo "✔ Add nvm to .huskyrc"
-        fi
-printDivider
-
-
-# Install Google Cloud SDK and Components
-printHeading "Install Google Cloud SDK and Components"
-    printStep "Google Cloud SDK"        "brew install --cask google-cloud-sdk"
-    printDivider
-        echo "✔ Prepping Autocompletes and Paths"
-        source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
-        source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
-    printDivider
-        if [ -e ~/google-cloud-sdk ]; then
-            echo "✔ ~/google-cloud-sdk exists. Skipping"
-        else
-            echo "✔ Creating ~/google-cloud-sdk symlink"
-            ln -s "$(brew --prefix)/Caskroom/google-cloud-sdk" ~/google-cloud-sdk &>/dev/null
-            # make a convenience symlink at the install path for google-cloud-sdk when installed manually
-        fi
-    printStep "App Engine - Go"             "gcloud components install app-engine-go --quiet"
-    printStep "App Engine - Python"         "gcloud components install app-engine-python --quiet"
-    printStep "App Engine - Python Extras"  "gcloud components install app-engine-python-extras --quiet"
-    printStep "Kubectl"                     "gcloud components install kubectl --quiet"
-    printStep "Docker Credentials"          "gcloud components install docker-credential-gcr --quiet"
 printDivider
 
 
 # Install System Tweaks
 printHeading "System Tweaks"
     printDivider
-    echo "✔ General: Expand save and print panel by default"
-        defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-        defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
-        defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-        defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
     echo "✔ General: Save to disk (not to iCloud) by default"
         defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
     echo "✔ General: Avoid creating .DS_Store files on network volumes"
         defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
     printDivider
         
-    echo "✔ Typing: Disable smart quotes and dashes as they cause problems when typing code"
-        defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
-        defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
     echo "✔ Typing: Disable press-and-hold for keys in favor of key repeat"
         defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
     printDivider
 
     echo "✔ Finder: Show status bar and path bar"
-        defaults write com.apple.finder ShowStatusBar -bool true
+        # defaults write com.apple.finder ShowStatusBar -bool true
         defaults write com.apple.finder ShowPathbar -bool true
     echo "✔ Finder: Disable the warning when changing a file extension"
         defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-    echo "✔ Finder: Show the ~/Library folder"
-        chflags nohidden ~/Library
+    # echo "✔ Finder: Show the ~/Library folder"
+    #     chflags nohidden ~/Library
     printDivider
         
     echo "✔ Safari: Enable Safari’s Developer Settings"
@@ -548,14 +516,10 @@ printHeading "System Tweaks"
     
     echo "✔ Chrome: Disable the all too sensitive backswipe on Trackpads and Magic Mice"
         defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
-        defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
         defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false
-        defaults write com.google.Chrome.canary AppleEnableMouseSwipeNavigateWithScrolls -bool false
     echo "✔ Chrome: Use the system print dialog and expand dialog by default"
         defaults write com.google.Chrome DisablePrintPreview -bool true
-        defaults write com.google.Chrome.canary DisablePrintPreview -bool true
         defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
-        defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool true
 printDivider
 
 
