@@ -112,9 +112,6 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # Setting up Path for Homebrew
 export PATH=/usr/local/sbin:\$PATH
 
-# Setup Path for Local Python Installs
-export PATH=\$PATH:\$HOME/Library/Python/2.7/bin
-
 # Bash Autocompletion
 if type brew &>/dev/null; then
   HOMEBREW_PREFIX="\$(brew --prefix)"
@@ -174,9 +171,6 @@ cat << EOT >> ~/.zprofile
 
 # Setting up Path for Homebrew
 export PATH=/usr/local/sbin:\$PATH
-
-# Setup Path for Local Python Installs
-export PATH=\$PATH:\$HOME/Library/Python/2.7/bin
 
 # Brew Autocompletion
 if type brew &>/dev/null; then
@@ -330,6 +324,7 @@ printHeading "Installing Brew Packages"
     printStep "AWS Cli"                     "brew install awscli"
     printStep "kubectl"                     "brew install kubectl"
     printStep "Postgresql"                  "brew install postgres"
+    printStep "Python"                      "brew install python"
     printStep "Redis"                       "brew install redis"
     printStep "jq"                          "brew install jq"
     printStep "yarn"                        "brew install yarn"
@@ -410,29 +405,6 @@ printHeading "Installing Go"
         echo "✔ Creating Go directory in home folder [~/go]"
             mkdir -p ~/go
     printStep "Go"            "brew install go"
-printDivider
-
-
-# Install Mac OS Python Pip and Packages
-# Run this before "Homebrew Python 3" to make sure "Homebrew Python 3" will overwrite pip3
-printHeading "Installing Mac OS Python"
-    printDivider
-        echo "Installing Pip for MacOS Python..."
-            sudo -H /usr/bin/easy_install pip==20.3.4
-    printDivider
-        echo "Upgrading Pip for MacOS Python..."
-            sudo -H pip install --upgrade "pip < 21.0"
-    printStep "Invoke for MacOS Python"          "sudo -H pip install --quiet invoke"
-    printStep "Requests for MacOS Python"        "sudo -H pip install --quiet requests"
-    printStep "lxml for MacOS Python"            "sudo -H pip install --quiet lxml"
-    printStep "pyCrypto for MacOS Python"        "sudo -H pip install --quiet pyCrypto"
-    printStep "Virtualenv for MacOS Python"      "sudo -H pip install --quiet virtualenv"
-printDivider
-
-
-# Install Homebrew Python 3
-printHeading "Installing Homebrew Python 3"
-    printStep "Homebrew Python 3 with Pip"       "brew reinstall python"
 printDivider
 
 
